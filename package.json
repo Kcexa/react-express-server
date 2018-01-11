@@ -1,0 +1,22 @@
+{
+  "name": "react-express-server",
+  "version": "1.0.0",
+  "description": "Simple Server with React and Express",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kcexa/react-express-server.git"
+  },
+  "author": "kseniia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kcexa/react-express-server/issues"
+  },
+  "homepage": "https://github.com/Kcexa/react-express-server#readme",
+  "devDependencies": {
+    "express-generator": "^4.15.5"
+  }
+}
