@@ -1,46 +1,43 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const express = require('express'),
+      app = express();
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
-var index = require('./api/routes/index');
-var historyRoute = require('./api/routes/history');
+/*-- Routes */
+const index = require('./api/routes/index');
+const historyRoute = require('./api/routes/history');
 
-var app = express();
+/*-- DB*/
+const mongoose = require('mongoose'),
+      HistoryModel = require('./api/models/history');
 
-const   mongoose = require('mongoose'),
-        HistoryModel = require('./api/models/history');
-
-// Init MongoDB
+/*-- Init MongoDB */
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/TestHistory');
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+/*-- Parsers, loggers and others */
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico'))); // uncomment after placing your favicon in /public
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes
+/*-- Routes */
 app.use('/', index);
 historyRoute(app);
 
-// catch 404 and forward to error handler
+/*-- Catch 404 and forward to error handler */
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-// error handler
+/*-- Error handler */
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;

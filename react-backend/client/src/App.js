@@ -3,21 +3,22 @@ import './App.css';
 
 class App extends Component {
     state = {
-        users: []
+        history: []
     };
     componentDidMount() {
-        fetch('/users')
+        fetch('/history')
             .then(res => res.json())
-            .then(users => this.setState({users}))
+            .then(history => this.setState({history}))
+
     }
     render() {
         console.log(this.state.users);
         return (
-            <div className="App">
-                <h1>Users</h1>
+            <div className="app">
+                <h1>History</h1>
                 <ul>
-                    {this.state.users.map(user =>
-                        <li key={user.id}>{user.username}</li>
+                    {this.state.history.map(item =>
+                        <li key={item.id}>{item.createdDate} - {item.title} - {item.url}</li>
                     )}
                 </ul>
             </div>
