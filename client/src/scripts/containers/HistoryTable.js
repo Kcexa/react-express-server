@@ -11,27 +11,30 @@ class HistoryTable extends Component {
             .then(history => this.setState({history}));
     }
 
-    convertTime(time) {
+    convertTime(time) { // only till days
         let mround = (number, roundTo) => {
             return roundTo * Math.round(number/roundTo);
         };
-        let resultTime = ((Date.now() - (new Date(time)))/1000);
-        if (resultTime > 59) {
+        let resultTime = time/1000;
+        if (resultTime >= 60) {
             resultTime = mround(resultTime,100)/60;
-            if (resultTime > 59) {
+            if (resultTime >= 60) {
                 resultTime = mround(resultTime,100)/60;
-                if (resultTime > 23) {
-                    return resultTime.toFixed(0) + " days";
+                if (resultTime >= 24) {
+                    resultTime = mround(resultTime,100)/24;
+                    resultTime = resultTime.toFixed(0);
+                    return resultTime + (resultTime > 1 ? " days" : " day");
                 } else {
-                    return resultTime.toFixed(0) + " hours";
+                    resultTime = resultTime.toFixed(0);
+                    return resultTime + (resultTime > 1 ? " hours" : " hour");
                 }
             } else {
-                return resultTime.toFixed(0) + " minutes";
+                resultTime = resultTime.toFixed(0);
+                return resultTime + (resultTime > 1 ? " minutes" : " minute");
             }
-        } else if (resultTime < 10) {
-            return resultTime && resultTime.toFixed(2);
         } else {
-            return resultTime && resultTime.toFixed(0);
+            resultTime = resultTime.toFixed(0);
+            return resultTime +  (resultTime > 1 ? " seconds" : " second");
         }
     }
 
@@ -46,7 +49,7 @@ class HistoryTable extends Component {
                 </tr>
                 {this.state.history.map(item =>
                     <tr key={item._id}>
-                        <td>{`${this.convertTime(item.createdDate)} ago`}</td>
+                        <td>{`${this.convertTime(Date.now() - (new Date(item.createdDate)))} ago`}</td>
                         <td>{item.url}</td>
                     </tr>
                 )}
