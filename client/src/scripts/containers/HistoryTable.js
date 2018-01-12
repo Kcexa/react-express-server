@@ -21,7 +21,7 @@ class HistoryTable extends Component {
             if (resultTime >= 60) {
                 resultTime = mround(resultTime,100)/60;
                 if (resultTime >= 24) {
-                    resultTime = mround(resultTime,100)/24;
+                    resultTime = mround(resultTime,10)/24;
                     resultTime = resultTime.toFixed(0);
                     return resultTime + (resultTime > 1 ? " days" : " day");
                 } else {
